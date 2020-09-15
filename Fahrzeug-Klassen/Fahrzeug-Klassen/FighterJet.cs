@@ -13,23 +13,23 @@ namespace Fahrzeug_Klassen
 	{
 		override public int MaxSpeed
 		{
-			get => maxSpeed;
+			get => base.MaxSpeed;
 			set
 			{
 				if (value < 3300 && value > 0)
 				{
-					maxSpeed = value;
+					base.MaxSpeed = value;
 				}
 			}
 		}
 		override public int CurSpeed
 		{
-			get => curSpeed;
+			get => base.CurSpeed;
 			set
 			{
-				if (value <= maxSpeed && value >= 0)
+				if (value <= base.MaxSpeed && value >= 0)
 				{
-					curSpeed = value;
+					base.CurSpeed = value;
 				}
 			}
 
