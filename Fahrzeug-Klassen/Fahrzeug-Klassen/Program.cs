@@ -61,7 +61,7 @@ namespace Fahrzeug_Klassen
             timer_move.Tick += myform.timer1_Tick;
             timer_move.Start();
 
-            timer_generate.Interval = 1000;
+            timer_generate.Interval = 3000;
             timer_generate.Tick += myform.AddAndRemove;
             timer_generate.Start();
 

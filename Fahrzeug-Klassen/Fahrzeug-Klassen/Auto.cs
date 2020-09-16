@@ -13,7 +13,7 @@ namespace Fahrzeug_Klassen
 	class Auto:Landfahrzeug
 
 	{
-		public static readonly int absolute_maxSpeed = 100;
+		public static readonly int absolute_maxSpeed = 400;
 		public static readonly int absolute_minSpeed = 30;
 
 		public Auto(int maxSpeed)

@@ -46,6 +46,7 @@ namespace Fahrzeug_Klassen
                 System.Windows.Forms.ControlStyles.AllPaintingInWmPaint |
                 System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer,
                 true);
+            this.DoubleBuffered = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -56,32 +57,33 @@ namespace Fahrzeug_Klassen
         public void timer1_Tick(object sender, EventArgs e)
         {
             this.SuspendLayout();
+            
             int index = 0;
-            //dispose = new List<bool>(new bool[Program.List_obj.Count]);
-            //Console.WriteLine("ObjectNumber is : " + Program.List_obj.Count );
+            
 
-            //Console.WriteLine(Program.List_obj.Count);
             foreach (Fahrzeug the_car in Program.List_obj) {
                 if (the_car.CurSpeed > 0 && String.Equals(the_car.Direction.ToLower(), "left"))
                 {
                     the_car.CurSpeed *= -1;
-                    Console.WriteLine("direction adjusted");
+                    //Console.WriteLine("direction adjusted");
 
                 }
                 the_car.Sprite.Location = new Point(the_car.Sprite.Location.X + (the_car.CurSpeed / 3)/*so as to improve visuals*/, the_car.Sprite.Location.Y);
                 
                 if (Out_Of_Bounds(the_car) && !dispose[index])
                 {
-                    Console.WriteLine("count of dispose : " + dispose.Count);
+                    
                     dispose[index] = true;
+
                     Console.WriteLine("should be disposed");
+
                 }
                 index++;
             }
 
             this.ResumeLayout();
-            this.Update();
-            this.Refresh();
+            //this.Update();
+            //this.Refresh();
 
         }
         private bool Out_Of_Bounds(Fahrzeug _vessel)
@@ -98,14 +100,19 @@ namespace Fahrzeug_Klassen
             for (int i = 0; i < dispose.Count; i++)
             {
                 if (dispose[i])
-                {                    
+                {
+                    var redundant_index = Program.List_obj[i - count_of_removed].Sprite;
+                    this.Controls.Remove(redundant_index);
                     Program.List_obj.RemoveAt(i-count_of_removed);
-                    Console.WriteLine("removed ");
+                    Console.WriteLine("-Removed : Count : " + Program.List_obj.Count);
                     count_of_removed++;
                 }
             }
-            Program.List_obj.Add(Spawn_vehicle());
+            if(Program.List_obj.Count <= 4)
+                Program.List_obj.Add(Spawn_vehicle());
             dispose = new List<bool>(new bool[Program.List_obj.Count]);
+            Console.WriteLine("+Spawned : Count: " + Program.List_obj.Count);
+
 
         }
         private Fahrzeug Spawn_vehicle()
@@ -157,7 +164,7 @@ namespace Fahrzeug_Klassen
             //}
 
             image_path = Auto_pics[_random.Next(0,7)];
-            Console.WriteLine("image_path : " +image_path);
+            //Console.WriteLine("image_path : " +image_path);
             vehicle.Sprite.Height = 60;
             vehicle.Sprite.Width = 100;
             vehicle.Sprite.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -172,16 +179,28 @@ namespace Fahrzeug_Klassen
             switch (_random.Next(0, 2))
             {
                 case 0: direction = "left"; vehicle.Sprite.Location = new Point(1000, 170); vehicle.Sprite.Image.RotateFlip(RotateFlipType.RotateNoneFlipX); break;
-                case 1: direction = "right"; vehicle.Sprite.Location = new Point(0 - vehicle.Sprite.Width, 320);Console.WriteLine("IM HERERERERE"); break;
+                case 1: direction = "right"; vehicle.Sprite.Location = new Point(0 - vehicle.Sprite.Width, 320); break;
                 default: direction = "left"; break;
             }
 
             vehicle.Direction = direction;
             vehicle.CurSpeed = curSpeed;
-
-            this.Controls.Add(vehicle.Sprite);
+            Control control_of_sprite = new Control();
+            control_of_sprite = vehicle.Sprite;
+            //control_of_sprite.double
+            this.Controls.Add(control_of_sprite);
 
             return vehicle;
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+            }
         }
     }
 }
