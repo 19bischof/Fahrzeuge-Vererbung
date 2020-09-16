@@ -17,8 +17,10 @@ namespace Fahrzeug_Klassen
 		private int curSpeed;
         private PictureBox sprite;
 		private String direction;
+		private bool hit_checkpoint0 = false;
 
-        public virtual int MaxSpeed { get => maxSpeed; set => maxSpeed = value; }
+
+		public virtual int MaxSpeed { get => maxSpeed; set => maxSpeed = value; }
 		public virtual int CurSpeed { get => curSpeed; set => curSpeed = value; }
         public virtual PictureBox Sprite { get => sprite; set => sprite = value; }
         public string Direction
@@ -30,6 +32,8 @@ namespace Fahrzeug_Klassen
 					direction = value;
 			}
 		}
+
+        public bool Hit_checkpoint0 { get => hit_checkpoint0; set => hit_checkpoint0 = value; }
 
         public Fahrzeug()
         {

@@ -24,7 +24,12 @@ namespace Fahrzeug_Klassen
         static String[] Schlauchboot_pics = System.IO.Directory.GetFiles("../../images/PKW/");
 
         public static List<bool> dispose ;
+
+        private int frame_count = 0;
+        DateTime start = System.DateTime.Now;
         private Random _random;
+        private PictureBox checkpoint0;
+        private PictureBox checkpoint1;
 		public Form1()
 		{
 			InitializeComponent();
@@ -47,6 +52,19 @@ namespace Fahrzeug_Klassen
                 System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer,
                 true);
             this.DoubleBuffered = true;
+            checkpoint0 = new PictureBox();
+            checkpoint0.Width = 10;
+            checkpoint0.Height = 20;
+            checkpoint0.Location = new Point(100, 190);
+            checkpoint0.Image = Image.FromFile("../../images/CHECKPOINT/black.png");
+            this.Controls.Add(checkpoint0);
+
+            checkpoint1 = new PictureBox();
+            checkpoint1.Width = 10;
+            checkpoint1.Height = 20;
+            checkpoint1.Location = new Point(100, 340);
+            checkpoint1.Image = Image.FromFile("../../images/CHECKPOINT/red.png");
+            this.Controls.Add(checkpoint1);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -56,6 +74,12 @@ namespace Fahrzeug_Klassen
         }
         public void timer1_Tick(object sender, EventArgs e)
         {
+            frame_count++;
+            if (( DateTime.Now - start).Seconds > 1) {
+                Console.WriteLine("FPS: " + frame_count);
+                start = DateTime.Now;
+                frame_count = 0;
+            }
             this.SuspendLayout();
             
             int index = 0;
@@ -69,7 +93,14 @@ namespace Fahrzeug_Klassen
 
                 }
                 the_car.Sprite.Location = new Point(the_car.Sprite.Location.X + (the_car.CurSpeed / 3)/*so as to improve visuals*/, the_car.Sprite.Location.Y);
-                
+                if (the_car.Direction.Equals("left"))
+                {
+                    if (the_car.Sprite.Bounds.IntersectsWith(checkpoint0.Bounds) && !the_car.Hit_checkpoint0) { Console.WriteLine("\t\t\t\t\thit while left");the_car.Hit_checkpoint0= true; }
+                }
+                else
+                {
+                    if (the_car.Sprite.Bounds.IntersectsWith(checkpoint1.Bounds) && !the_car.Hit_checkpoint0) { Console.WriteLine("\t\t\t\t\thit while right"); the_car.Hit_checkpoint0 = true; }
+                }
                 if (Out_Of_Bounds(the_car) && !dispose[index])
                 {
                     
@@ -192,13 +223,14 @@ namespace Fahrzeug_Klassen
 
             return vehicle;
         }
-
+        //
         protected override CreateParams CreateParams
         {
             get
             {
                 CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;
+                Console.WriteLine("STyle : " + cp.ExStyle);
                 return cp;
             }
         }
