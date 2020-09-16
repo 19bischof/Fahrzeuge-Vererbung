@@ -11,12 +11,20 @@ namespace Fahrzeug_Klassen
 	/// </summary>
 	class U_Boot:Wasserfahrzeug
 	{
-		override public int MaxSpeed
+		public static readonly int absolute_maxSpeed = 40;
+		public static readonly int absolute_minSpeed = 1;
+
+        public U_Boot(int maxSpeed)
+        {
+            MaxSpeed = maxSpeed;
+        }
+
+        override public int MaxSpeed
 		{
 			get => base.MaxSpeed;
 			set
 			{
-				if (value < 40 && value > 0)
+				if (value < absolute_maxSpeed && value > absolute_minSpeed)
 				{
 					base.MaxSpeed = value;
 				}

@@ -7,91 +7,73 @@ using System.Windows.Forms;
 using System.Threading;
 
 
+
 namespace Fahrzeug_Klassen
 {
-	static class Program
-	{
-		public static PictureBox[] arr_pics = new PictureBox[2];
-		/// <summary>
-		/// Der Haupteinstiegspunkt für die Anwendung.
-		/// </summary>
-		[STAThread]
-		static void Main()
-		{
-
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			var myform = new Form1();
-            myform.Width = 1000;
-			myform.Height = 600;
-
-            myform.BackgroundImageLayout = ImageLayout.Stretch;
-			myform.Text = "Eine Straße";
-			myform.FormBorderStyle = FormBorderStyle.FixedSingle;
-			myform.StartPosition = FormStartPosition.CenterScreen;
-
-
-			Image myimage = Image.FromFile("../../images/STRASSE/road image simple top view.png");
-
-
-			//Auto:
-			var myAuto = new Auto();
-			var myAuto1 = new Auto();
-			myAuto.Sprite = Image.FromFile("../../images/PKW/orange.png");
-			myAuto1.Sprite = Image.FromFile("../../images/PKW/Blue_small.png");
-
-
-			myform.BackgroundImage = myimage;
-			myform.BackgroundImageLayout = ImageLayout.Stretch;
-			PictureBox first_pic = new PictureBox();
-			first_pic.Image = myAuto.Sprite;
-            first_pic.Height = 60;
-			first_pic.Width = 100;
-            first_pic.SizeMode = PictureBoxSizeMode.StretchImage;
-			first_pic.Location = new Point(1000 - 110,170);
-			first_pic.BackColor = Color.Transparent;
-
-			PictureBox second_pic = new PictureBox();
-			second_pic.Image = myAuto1.Sprite;
-			second_pic.SizeMode = PictureBoxSizeMode.StretchImage;
-			second_pic.Location = new Point(0, 250);
-			second_pic.BackColor = Color.Transparent;
-			second_pic.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
-
-
-
-			Program.arr_pics[0] = first_pic;
-			myform.Controls.Add(first_pic);
-			myform.Controls.Add(second_pic);
-
-			public delegate void Time_is_real();
-
-			//Thread thread = new Thread(new ThreadStart(Time_is_real));
-			//thread.Start();
-			//System.Windows.Forms.MethodInvoker(Time_is_real);
-
-			//Delegate timmy = new Delegate(Time_is_real);
-			System.Windows.Forms.Control.Invoke(Time_is_real);
-
-			Application.Run(myform);
-			
-
-			
-			
-		
-			
-				}
-		public static void Time_is_real()
+    static class Program
+    {
+        static System.Windows.Forms.Timer timer_move = new System.Windows.Forms.Timer();
+        static System.Windows.Forms.Timer timer_generate = new System.Windows.Forms.Timer();
+        public static List<Fahrzeug> List_obj = new List<Fahrzeug>();
+        
+        /// <summary>
+        /// Der Haupteinstiegspunkt für die Anwendung.
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-			PictureBox the_pic; 
-			the_pic = Program.arr_pics[0];
-			for (int i = 0; i < 1000; i++)
-			{
-				Console.WriteLine(the_pic.Location);
-				the_pic.Location = new Point(the_pic.Location.X + 1, the_pic.Location.Y);
-				System.Threading.Thread.Sleep(200);
 
-			}
-		}
-	}
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            var myform = new Form1();
+
+
+
+
+
+
+            //Auto:
+            //var myAuto = new Auto(120);
+            //myAuto.Sprite.Image =  Image.FromFile("../../images/PKW/orange.png");
+            //myAuto.Sprite.Height = 60;
+            //myAuto.Sprite.Width = 100;
+            //myAuto.Sprite.SizeMode = PictureBoxSizeMode.StretchImage;
+            //myAuto.Sprite.Location = new Point(1000 - 110, 170);
+            //myAuto.Sprite.BackColor = Color.Transparent;
+            //myAuto.CurSpeed = 80;
+            //////////////////////
+            //var myAuto1 = new Auto(100);
+            //myAuto1.Sprite.Image = Image.FromFile("../../images/PKW/Blue_small.png");
+            //myAuto1.Sprite.SizeMode = PictureBoxSizeMode.StretchImage;
+            //myAuto1.Sprite.Location = new Point(0, 320);
+            //myAuto1.Sprite.BackColor = Color.Transparent;
+            //myAuto1.Sprite.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            //myAuto1.Direction = "right";
+            //myAuto1.CurSpeed = 50;
+
+            //Program.List_obj.Add(myAuto);
+            //Program.List_obj.Add(myAuto1);
+
+            //myform.Controls.Add(myAuto.Sprite);
+            //myform.Controls.Add(myAuto1.Sprite);
+
+            timer_move.Interval = 16;
+            timer_move.Tick += myform.timer1_Tick;
+            timer_move.Start();
+
+            timer_generate.Interval = 1000;
+            timer_generate.Tick += myform.AddAndRemove;
+            timer_generate.Start();
+
+
+
+
+
+
+            
+            Application.Run(myform);
+
+
+        }
+    }
 }

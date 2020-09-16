@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,20 @@ namespace Fahrzeug_Klassen
 	class Auto:Landfahrzeug
 
 	{
-		override public int MaxSpeed
+		public static readonly int absolute_maxSpeed = 100;
+		public static readonly int absolute_minSpeed = 30;
+
+		public Auto(int maxSpeed)
+        {
+            MaxSpeed = maxSpeed;
+        }
+
+        override public int MaxSpeed
 		{
 			get => base.MaxSpeed;
 			set
 			{
-				if (value < 400 && value > 0)
+				if (value <= absolute_maxSpeed && value > absolute_minSpeed)
 				{
 					base.MaxSpeed = value;
 				}
@@ -28,7 +37,7 @@ namespace Fahrzeug_Klassen
 			get => base.CurSpeed;
 			set
 			{
-				if (value <= base.MaxSpeed && value >= 0)
+				if (value <= base.MaxSpeed )
 				{
 					base.CurSpeed = value;
 				}

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Fahrzeug_Klassen
 {
@@ -14,10 +15,27 @@ namespace Fahrzeug_Klassen
 	{
 		private int maxSpeed;
 		private int curSpeed;
-        private Image sprite;
+        private PictureBox sprite;
+		private String direction;
 
         public virtual int MaxSpeed { get => maxSpeed; set => maxSpeed = value; }
 		public virtual int CurSpeed { get => curSpeed; set => curSpeed = value; }
-        public Image Sprite { get => sprite; set => sprite = value; }
+        public virtual PictureBox Sprite { get => sprite; set => sprite = value; }
+        public string Direction
+		{
+			get => direction;
+			set
+			{
+				if (String.Equals(value.ToLower(), "left") || String.Equals(value.ToLower(), "right"))
+					direction = value;
+			}
+		}
+
+        public Fahrzeug()
+        {
+			Sprite = new PictureBox();
+			Direction = "left";
+			
+        }
     }
 }

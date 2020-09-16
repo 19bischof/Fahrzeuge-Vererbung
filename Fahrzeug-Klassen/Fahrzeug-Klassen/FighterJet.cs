@@ -11,12 +11,20 @@ namespace Fahrzeug_Klassen
 	/// </summary>
 	class FighterJet:Luftfahrzeug
 	{
-		override public int MaxSpeed
+		public static readonly int absolute_maxSpeed = 3300;
+		public static readonly int absolute_minSpeed = 400;
+
+        public FighterJet(int maxSpeed)
+        {
+            MaxSpeed = maxSpeed;
+        }
+
+        override public int MaxSpeed
 		{
 			get => base.MaxSpeed;
 			set
 			{
-				if (value < 3300 && value > 0)
+				if (value < absolute_maxSpeed && value > absolute_minSpeed)
 				{
 					base.MaxSpeed = value;
 				}

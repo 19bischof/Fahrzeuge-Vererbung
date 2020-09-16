@@ -11,12 +11,19 @@ namespace Fahrzeug_Klassen
 	/// </summary>
 	class Airliner:Luftfahrzeug
 	{
-		override public int MaxSpeed
+		public static readonly int absolute_maxSpeed = 1500;
+		public static readonly int absolute_minSpeed = 120;
+		public Airliner(int maxSpeed)
+        {
+            MaxSpeed = maxSpeed;
+        }
+
+        override public int MaxSpeed
 		{
 			get => base.MaxSpeed;
 			set
 			{
-				if (value < 1500 && value > 0)
+				if (value < absolute_maxSpeed && value > absolute_minSpeed)
 				{
 					base.MaxSpeed = value;
 				}

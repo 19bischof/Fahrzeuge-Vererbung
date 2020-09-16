@@ -11,5 +11,6 @@ namespace Fahrzeug_Klassen
 	/// </summary>
 	abstract class Landfahrzeug:Fahrzeug
 	{
+		
 	}
 }
